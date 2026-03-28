@@ -26,3 +26,8 @@ MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
 MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", MAIL_USERNAME)
 
 MEDIA_DIR = os.path.join(BASE_DIR, "media")
+
+MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5MB
+
+ALLOWED_IMAGE_EXTENSIONS = {"jpg", "jpeg", "png", "webp"}
+ALLOWED_IMAGE_MIMETYPES = {"image/jpeg", "image/png", "image/webp"}

@@ -1,4 +1,4 @@
-from flask import Blueprint, g, redirect, render_template, request
+from flask import Blueprint, g, redirect, render_template, request, flash
 
 from app.decorators import login_required
 from app.extensions import db
@@ -22,6 +22,18 @@ def pub():
     place = request.form.get("place")
     provider = request.form.get("provider")
     mobile = request.form.get("mobile")
+
+    if not picture:
+        flash("请先上传图片", "error")
+        return redirect("/pub")
+
+    if not name:
+        flash("蔬菜名称不能为空", "error")
+        return redirect("/pub")
+
+    if not price:
+        flash("价格不能为空", "error")
+        return redirect("/pub")
 
     vegetable = Vegetable(
         category_id=category_id,

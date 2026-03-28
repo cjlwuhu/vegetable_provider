@@ -1,4 +1,3 @@
-from flask import Flask, g, session
 import config
 
 from app.extensions import db, migrate, mail
@@ -8,8 +7,11 @@ from app.blueprints.auth import bp as auth_bp
 from app.blueprints.vegetable import bp as vegetable_bp
 from app.blueprints.upload import bp as upload_bp
 
+from flask import Flask, g, jsonify, session
+from werkzeug.exceptions import RequestEntityTooLarge
 
 def create_app():
+
     app = Flask(__name__,
                 template_folder='../templates',
                 static_folder='../static'
@@ -30,6 +32,12 @@ def create_app():
             g.user = user
         else:
             g.user = None
+    @app.errorhandler(RequestEntityTooLarge)
+    def handle_file_too_large(e):
+        return jsonify({
+            "result": False,
+            "message": "图片大小不能超过 5MB"
+        }), 413
 
     @app.context_processor
     def context_processor():
