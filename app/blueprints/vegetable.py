@@ -1,6 +1,6 @@
 from decimal import Decimal, InvalidOperation
 
-from flask import Blueprint, flash, g, redirect, render_template, request, url_for
+from flask import Blueprint, flash, g, redirect, render_template, request, url_for , abort
 from sqlalchemy.exc import IntegrityError
 
 from app.extensions import db
@@ -8,6 +8,39 @@ from app.models import Vegetable, VegetableCategory
 from app.decorators import login_required
 
 bp = Blueprint("vegetable", __name__)
+
+@bp.route("/my/vegetables" , methods=["GET", "POST"])
+@login_required
+def my_vegetables():
+    vegetables = db.session.scalars(
+        db.select(Vegetable)
+        .where(Vegetable.publisher_id == g.user.id)
+        .order_by(Vegetable.id.desc())
+    ).all()
+
+    return render_template("my_vegetables.html", vegetables=vegetables)
+
+
+@bp.post("/vegetable/<int:vegetable_id>/delete")
+@login_required
+def delete_vegetable(vegetable_id):
+    vegetable = db.session.get(Vegetable, vegetable_id)
+
+    if vegetable is None:
+        abort(404)
+
+    if vegetable.publisher_id != g.user.id:
+        abort(403)
+
+    try:
+        db.session.delete(vegetable)
+        db.session.commit()
+        flash("删除成功", "success")
+    except Exception:
+        db.session.rollback()
+        flash("删除失败，请稍后重试", "error")
+
+    return redirect(url_for("vegetable.my_vegetables"))
 
 
 @bp.route("/pub", methods=["GET", "POST"])

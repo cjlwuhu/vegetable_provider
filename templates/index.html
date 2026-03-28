@@ -48,7 +48,7 @@
                         <div class="mt-6 flex items-center gap-2">
                             {% if pagination.has_prev %}
                                 <a
-                                    href="{{ url_for('main.index', page=pagination.prev_num, q=q, category=category_id) }}"
+                                    href="{{ url_for('main.index', page=pagination.prev_num, q=q, category_id=category_id) }}"
                                     class="px-3 py-2 border rounded"
                                 >
                                     上一页
@@ -58,7 +58,7 @@
                             {% for p in pagination.iter_pages() %}
                                 {% if p %}
                                     <a
-                                        href="{{ url_for('main.index', page=p, q=q, category=category_id) }}"
+                                        href="{{ url_for('main.index', page=p, q=q, category_id=category_id) }}"
                                         class="px-3 py-2 border rounded {% if p == pagination.page %}font-bold bg-gray-100{% endif %}"
                                     >
                                         {{ p }}
