@@ -9,6 +9,7 @@
             <div class="w-full lg:w-3/4">
                 <!-- 文章列表 -->
                 <div class="space-y-6">
+                {% if vegetables %}
                     {% for vegetable in vegetables %}
                     <article
                             class="card-hover bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300">
@@ -32,27 +33,51 @@
                     </article>
                     {% endfor %}
 
+                   {% else %}
+                    <div class="py-10 text-center text-gray-500">
+                        没有搜索到符合条件的数据
+                    </div>
+
+                {% endif %}
+
                 </div>
 
                 <!-- 分页 -->
                 <div class="mt-10 flex justify-center">
-                    <nav class="flex items-center space-x-2">
-                        <button class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition-colors">
-                            上一页
-                        </button>
-                        <button class="px-4 py-2 rounded-lg bg-green-500 text-white font-medium hover:bg-green-600 transition-colors">
-                            1
-                        </button>
-                        <button class="px-4 py-2 rounded-lg bg-white text-gray-700 font-medium hover:bg-gray-100 transition-colors">
-                            2
-                        </button>
-                        <button class="px-4 py-2 rounded-lg bg-white text-gray-700 font-medium hover:bg-gray-100 transition-colors">
-                            3
-                        </button>
-                        <button class="px-4 py-2 rounded-lg bg-white text-gray-700 font-medium hover:bg-gray-100 transition-colors">
-                            下一页
-                        </button>
-                    </nav>
+                    {% if pagination.pages > 1 %}
+                        <div class="mt-6 flex items-center gap-2">
+                            {% if pagination.has_prev %}
+                                <a
+                                    href="{{ url_for('main.index', page=pagination.prev_num, q=q, category=category_id) }}"
+                                    class="px-3 py-2 border rounded"
+                                >
+                                    上一页
+                                </a>
+                            {% endif %}
+
+                            {% for p in pagination.iter_pages() %}
+                                {% if p %}
+                                    <a
+                                        href="{{ url_for('main.index', page=p, q=q, category=category_id) }}"
+                                        class="px-3 py-2 border rounded {% if p == pagination.page %}font-bold bg-gray-100{% endif %}"
+                                    >
+                                        {{ p }}
+                                    </a>
+                                {% else %}
+                                    <span class="px-2">...</span>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if pagination.has_next %}
+                                <a
+                                    href="{{ url_for('main.index', page=pagination.next_num, q=q, category=category_id) }}"
+                                    class="px-3 py-2 border rounded"
+                                >
+                                    下一页
+                                </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
                 </div>
             </div>
 
