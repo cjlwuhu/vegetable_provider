@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request ,abort
 
 from app.extensions import db
 from app.models import Vegetable
@@ -28,4 +28,6 @@ def detail(vegetable_id):
     vegetable = db.session.scalar(
         db.select(Vegetable).where(Vegetable.id == vegetable_id)
     )
+    if(vegetable is None):
+        abort(404);
     return render_template("detail.html", vegetable=vegetable)

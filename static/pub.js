@@ -55,6 +55,40 @@ function bindUpload() {
     });
 }
 
+// function bindPublishForm() {
+//     $("form").on("submit", function (event) {
+//         const picture = $("#picture").val();
+//         const name = $.trim($("#name").val());
+//         const price = $.trim($("#price").val());
+//         const category = $("#category").val();
+//
+//         if (!picture) {
+//             alert("请上传图片");
+//             event.preventDefault();
+//             return;
+//         }
+//
+//         if (!name) {
+//             alert("蔬菜名称不能为空");
+//             event.preventDefault();
+//             return;
+//         }
+//
+//         if (!price) {
+//             alert("价格不能为空");
+//             event.preventDefault();
+//             return;
+//         }
+//
+//         if (!category) {
+//             alert("请选择分类");
+//             event.preventDefault();
+//             return;
+//         }
+//     });
+// }
+
 $(function () {
     bindUpload();
+    // bindPublishForm();
 });

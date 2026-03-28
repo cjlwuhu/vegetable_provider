@@ -7,7 +7,7 @@ from app.blueprints.auth import bp as auth_bp
 from app.blueprints.vegetable import bp as vegetable_bp
 from app.blueprints.upload import bp as upload_bp
 
-from flask import Flask, g, jsonify, session
+from flask import Flask, g, jsonify, session ,render_template, request, redirect, url_for
 from werkzeug.exceptions import RequestEntityTooLarge
 
 def create_app():
@@ -38,6 +38,10 @@ def create_app():
             "result": False,
             "message": "图片大小不能超过 5MB"
         }), 413
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return render_template('404.html') , 404
 
     @app.context_processor
     def context_processor():
