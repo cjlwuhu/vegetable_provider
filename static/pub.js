@@ -43,6 +43,10 @@ function bindUpload() {
                 $("#image-placeholder").addClass("hidden");
                 $("#category").val(category.id);
                 $("#picture").val(pictureUrl);
+
+                if (result.latency_ms !== undefined) {
+                    alert(`识别成功：${category.name}，耗时 ${result.latency_ms} ms`);
+                }
             },
             error: function (xhr) {
                 let message = "上传失败，请稍后重试";

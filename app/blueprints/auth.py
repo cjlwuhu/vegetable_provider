@@ -2,7 +2,7 @@ import random
 import string
 from datetime import datetime, timedelta
 
-from flask import Blueprint, jsonify, redirect, render_template, request, session
+from flask import Blueprint, jsonify, redirect, render_template, request, session  ,flash, url_for
 from flask_mail import Message
 
 from app.extensions import db, mail
@@ -25,9 +25,11 @@ def login():
         session["user_id"] = user.id
         if remember:
             session.permanent = True
+        flash("登陆成功", "success")
         return redirect("/")
-
-    return redirect("/login")
+    else:
+        flash("账号或密码错误", "error")
+        return redirect(url_for("auth.login"))
 
 
 @bp.post("/logout")

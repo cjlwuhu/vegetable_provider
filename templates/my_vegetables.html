@@ -40,6 +40,13 @@
                                     查看详情
                                 </a>
 
+                                <a
+                                    href="{{ url_for('vegetable.edit_vegetable', vegetable_id=vegetable.id) }}"
+                                    class="px-3 py-1 rounded bg-blue-600 text-white"
+                                >
+                                    编辑
+                                </a>
+
                                 <form
                                     method="post"
                                     action="{{ url_for('vegetable.delete_vegetable', vegetable_id=vegetable.id) }}"
