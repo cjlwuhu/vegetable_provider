@@ -48,6 +48,28 @@
                         </p>
 
                         <p class="text-gray-700">
+                            置信度：
+                            {% if record.confidence is not none %}
+                                {{ '%.2f' | format(record.confidence * 100) }}%
+                            {% else %}
+                                无
+                            {% endif %}
+                        </p>
+
+                        {% if record.top_k_list %}
+                            <div class="text-gray-700">
+                                Top-K 候选：
+                                <ul class="list-disc ml-6 mt-1">
+                                    {% for item in record.top_k_list %}
+                                        <li>
+                                            {{ item.name }} - {{ '%.2f' | format(item.probability * 100) }}%
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <p class="text-gray-700">
                             推理耗时：
                             {% if record.latency_ms is not none %}
                                 {{ record.latency_ms }} ms

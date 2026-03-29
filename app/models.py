@@ -5,6 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.extensions import db
+import json
 
 
 class User(db.Model):
@@ -81,6 +82,8 @@ class EmailCode(db.Model):
     code: Mapped[str] = mapped_column(String(255))
     create_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
+
+
 class PredictionRecord(db.Model):
     __tablename__ = "prediction_record"
 
@@ -88,9 +91,22 @@ class PredictionRecord(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     image_path = db.Column(db.String(255), nullable=False)
     predicted_category_name = db.Column(db.String(50), nullable=True)
+
+    confidence = db.Column(db.Float, nullable=True)
+    top_k_json = db.Column(db.Text, nullable=True)
+
     latency_ms = db.Column(db.Integer, nullable=True)
     status = db.Column(db.String(20), nullable=False, default="success")
     error_message = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     user = db.relationship("User", backref=db.backref("prediction_records", lazy="dynamic"))
+
+    @property
+    def top_k_list(self):
+        if not self.top_k_json:
+            return []
+        try:
+            return json.loads(self.top_k_json)
+        except Exception:
+            return []
