@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.idea/
+.vscode/
+.env
+media/
+mysql_data/

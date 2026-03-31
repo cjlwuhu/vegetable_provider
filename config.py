@@ -14,7 +14,7 @@ MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
 MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "vegetable_provider")
 
 SQLALCHEMY_DATABASE_URI = (
-    f"mysql+mysqldb://{MYSQL_USER}:{MYSQL_PASSWORD}"
+    f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}"
     f"@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}?charset=utf8mb4"
 )
 
