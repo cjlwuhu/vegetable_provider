@@ -32,6 +32,7 @@ def create_app():
             g.user = user
         else:
             g.user = None
+
     @app.errorhandler(RequestEntityTooLarge)
     def handle_file_too_large(e):
         return jsonify({
